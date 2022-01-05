@@ -1,0 +1,33 @@
+.navbar{
+    font-family: cursive;
+}
+body{
+    font-family: cursive;
+}
+.banner{
+    height: 80vh;
+    background: linear-gradient(rgba(0,0,0,.4));
+    background-image: url(image/patrick-tomasso-GXXYkSwndP4-unsplash.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 0 -120px;
+    background-attachment: fixed;
+}
+.main-color{
+    background-color: purple !important;
+}
+.kartu :hover{
+    transform: scale(.9);
+    transition: 0.5s;
+}
+.icon-service{
+    width: 90px;
+    height: 90px;
+    border: solid 2px #fff;
+    border-radius: 50%;
+    color: #fff;
+}
+.menu:hover{
+    transform: scale(.9) translate(0, 50px);
+    transition: 1s;
+}
