@@ -23,19 +23,24 @@
               <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto ">
                   <li class="nav-item me-3">
-                    <a class="nav-link active" aria-current="page" href="#promo ">Promo</a>
+                    <a class="nav-link active" aria-current="page" href="#promo ">
+                      <i class="bi bi-cash-coin text-warning"></i> Promo</a>
                   </li>
                   <li class="nav-item me-3">
-                    <a class="nav-link active" aria-current="page" href="#service">Service</a>
+                    <a class="nav-link active" aria-current="page" href="#service">
+                      <i class="bi bi-hand-thumbs-up-fill text-warning"></i> Service</a>
                   </li>
                   <li class="nav-item me-3">
-                    <a class="nav-link active" href="#produk">Produk</a>
+                    <a class="nav-link active" href="#produk">
+                      <i class="bi bi-cart-fill text-warning"></i> Produk</a>
                   </li> 
                   <li class="nav-item me-3">
-                    <a class="nav-link active" href="#tentang">Tentang </a>
+                    <a class="nav-link active" href="#tentang">
+                      <i class="bi bi-info-circle text-warning "></i> Tentang </a>
                   </li>
                   <li class="nav-item me-3">
-                    <a class="nav-link active " href="#" tabindex="-1" aria-disabled="true">Kontak</a>
+                    <a class="nav-link active " href="#contact" tabindex="-1" aria-disabled="true">
+                      <i class="bi bi-telephone-plus text-warning"></i> Kontak</a>
                   </li>
                 </ul>
               </div>
@@ -268,25 +273,39 @@
           </div>
           <div class="row justify-content-center">
               <div class="col-md-8">
+                <div class="alert alert-warning alert-dismissible fade show bg-success d-none my-alert" role="alert">
+                  <strong class="text-white">Terimakasih!</strong><p class="text-white">Pesan Anda Sudah Kami Terima</p>.
+                  <button type="button" class="btn-close text-warning" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <form name="contact-from-caffe">
                   <div class="mb-3">
                       <label for="name " class="form-label fw-bold" >Nama</label>
-                      <input type="text" class="form-control" id="name" placeholder="masukan nama lengkap">
+                      <input type="text" class="form-control" id="nama" placeholder="masukan nama lengkap" name="namauser" >
                       <label for="email " class="form-label fw-bold" aria-describedby="email ">Email </label>
-                      <input type="email" class="form-control " id="email " placeholder="masukan Email anda ">
+                      <input type="email" class="form-control " id="email " placeholder="masukan Email anda " name="email1"  required>
                     
+                      <label for="telp " class="form-label fw-bold" aria-describedby="telp ">No Telephone </label>
+                      <input type="telp" class="form-control " id="telp " placeholder="masukan No Telephone anda(+62) " name="telp"  required>
+                      
                         <label for="pertanyaan " class="mt-2 mb-1  fw-bold">Masukan Pilihan</label>
-                        <select name="" id="" class="form-control">
-                          <option value="1">Food </option>
-                          <option value="2">Breakfast </option>
-                          <option value="3">Drink</option>
-                          <option value="4">Coffee</option>
+                        <select name="pilihan" id="" class="form-control" >
+                          <option value="food">Food </option>
+                          <option value="Breakfast">Breakfast </option>
+                          <option value="Drink">Drink</option>
+                          <option value="Coffee">Coffee</option>
                         </select>
                       
                       <div class="mb-3">
                           <label for="exampleFormControlTextarea1" class="form-label fw-bold">Pesan </label>
-                          <textarea class="form-control" id="Pesan" rows="4" placeholder="masukan pesan "></textarea>
-                          <button class="btn btn-primary">Kirim</button>
+                          <textarea name="pesan" class="form-control" id="Pesan" rows="4" placeholder="masukan pesan " ></textarea>
+                          <button class="btn btn-primary btn-kirim" type="submit">Kirim</button>
+                          <button class="btn btn-primary btn-loading d-none" type="button" disabled>
+                            <span class="spinner-grow spinner-grow-sm text-warning" role="status" aria-hidden="true"></span>
+                             Loading...
+                          </button>
                         </div>
+                      </form>
                   </div>
               </div>
           </div>
@@ -299,7 +318,42 @@
       <h5 class="text-center text-white pt-5" >Created with <i class="bi bi-heart-fill text-danger"></i> by <a href="https://wwww.instagram.com/fazar.m177 " class="text-white fw-bold text-decoration-none" >fazar Maulana</a></h5>
     </footer>
     <!-- akhir footer  -->
+
+    
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="js/anjay.js"></script>
+        
+    <script>
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbzS6vplQmF50UhBXIxDj-c3zstImAkxUS_Aqm7cpEM4Og97KOcsRnl_AAbJhyV-RQcFPw/exec'
+
+      const form = document.forms['contact-from-caffe'];
+      const btnloading = document.querySelector('.btn-loading');
+      const btnkirim = document.querySelector('.btn-kirim');
+      const myalert = document.querySelector('.my-alert')
+      
+      form.addEventListener('submit', e => {
+        e.preventDefault()
+        //ketika tombol submit di klik 
+
+        // tampilkan tombol loading, hilangkan tombol kirim
+        btnloading.classList.toggle('d-none')
+        btnkirim.classList.toggle('d-none');
+
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => {
+
+          //TAMPILKAN TOMBOL KIRIM,HILANGKAN TOMBOL LOADING
+            console.log('Success!', response)
+            btnloading.classList.toggle('d-none')
+            btnkirim.classList.toggle('d-none');
+            // TAMPILKAN ALLERT
+            myalert.classList.toggle('d-none')
+            // RESET FORM NYA KETIKA DI SUBMIT
+            form.reset();
+          })
+          .catch(error => console.error('Error!', error.message))
+      })
+    </script>
 </body>
 </html>
